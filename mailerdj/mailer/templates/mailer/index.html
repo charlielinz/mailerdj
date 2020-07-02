@@ -1,0 +1,29 @@
+{% extends 'mailer/base.html' %}
+{% block title %}<title>Mailer</title>{% endblock %}
+{% block content %}
+<div class='container'>
+  <h1 class='text-center' style='font-size: 60px;'>
+    Mailer
+  </h1>
+  <p class='lead text-center font-italic'>
+    do your daily mailjob automaticlly & save your time
+  </p>
+  <h2>
+    <a class='btn btn-outline-primary' href="{% url 'mailer:add_detail' %}" style='width: 80px;'>Add</a>
+  </h2>
+  <h2>
+    <table class='table'>
+      <thead class='font-weight-bolder' style='font-size: 20px;'>
+        <tr>
+          <th scope='col' style='width: 300px;'>Period</th>
+          <th scope='col' style='width: 900px;'>Subject</th>
+          <th scope='col' style='width: 900px;'>To</th>
+        </tr>
+      </thead>
+      <tbody class='font-weight-normal' style='font-size: 20px;'>
+
+      </tbody>
+    </table>
+  </h2>
+</div>
+{% endblock %}
