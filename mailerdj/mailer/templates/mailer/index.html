@@ -3,7 +3,7 @@
 {% block content %}
 <div class='container'>
   <h1 class='text-center' style='font-size: 60px;'>
-    Mailer
+    Outlook Postman
   </h1>
   <p class='lead text-center font-italic'>
     do your daily mailjob automaticlly & save your time
@@ -15,16 +15,16 @@
     <table class='table'>
       <thead class='font-weight-bolder' style='font-size: 20px;'>
         <tr>
-          <th scope='col' style='width: 300px;'>Id</th>
+          <th scope='col' style='width: 500px;'>Task</th>
           <th scope='col' style='width: 900px;'>Subject</th>
           <th scope='col' style='width: 900px;'>To</th>
-          <th scope='col' style='width: 300px;'></th>
+          <th scope='col' style='width: 200px;'></th>
         </tr>
       </thead>
       <tbody class='font-weight-normal' style='font-size: 20px;'>
         {% for object in objects %}
         <tr>
-          <td><a href="{% url 'mailer:edit_detail' id=object.id %}">{{ object.id }}</a></td>
+          <td><a href="{% url 'mailer:edit_detail' id=object.id %}">{{ object.task_name }}</a></td>
           <td>{{ object.subject }}</td>
           <td>{{ object.to }}</td>
           <td><a href="{% url 'mailer:delete_detail' id=object.id %}">delete</a></td>

@@ -10,7 +10,6 @@ import json
 
 
 def index(request):
-    print(type(EmailContent))
     emailcontents = EmailContent.objects.all()
     context = {
         'objects': emailcontents
