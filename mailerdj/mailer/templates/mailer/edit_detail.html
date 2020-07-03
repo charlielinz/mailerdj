@@ -15,16 +15,18 @@
                 {% for field in form %}
                 <div class='row'>
                     <div class='col-4'>
-                        {{ field.label }}
+                        {{ field.label_tag }}
                     </div>
                     <div class='col-6'>
                         {{ field }}
                     </div>
                 </div>       
-                {% endfor %}
-                <button class="btn btn-primary" type="submit">Submit</button>
+                {% endfor %}              
             </form>
         </div>
+    </h2>
+    <h2 class='text-center'>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </h2>
 </div>
 {% endblock %}

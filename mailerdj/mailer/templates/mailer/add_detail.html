@@ -12,10 +12,21 @@
         <div class='row justify-content-center' style='font-size: 20px;'>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button class="btn btn-primary" type="submit">Submit</button>
+                {% for field in form %}
+                <div class='row'>
+                    <div class='col-4'>
+                        {{ field.label_tag }}
+                    </div>
+                    <div class='col-6'>
+                        {{ field }}
+                    </div>
+                </div>
+                {% endfor %}
             </form>
         </div>
+    </h2>
+    <h2 class='text-center'>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </h2>
 </div>
 {% endblock %}
