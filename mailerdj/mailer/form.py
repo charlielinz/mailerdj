@@ -1,7 +1,7 @@
 from django import forms
-from .models import SendMailEveryFriday
+from .models import EmailContent
 
 class EmailForm(forms.ModelForm):
     class Meta:
-        model = SendMailEveryFriday
-        fields = ['subject', 'body', 'to']
+        model = EmailContent
+        fields = ['subject', 'body', 'to', 'attachment']

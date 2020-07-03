@@ -1,0 +1,16 @@
+{% extends 'mailer/base.html' %}
+{% block title %}<title>Delete</title>{% endblock %}
+{% block content %}
+<div class='container'>
+    <h1 class='text-center' style='font-size: 60px;'>Delete task</h1>
+    <p class='lead text-center font-italic'>
+        sure you wanna do this?
+    </p>
+    <h2 class='text-center'>
+        <form class='text-center' method="post">
+            {% csrf_token %}
+            <button class="btn btn-outline-primary " type="submit">CONFIRM</button>
+        </form>
+    </h2>
+</div>
+{% endblock %}

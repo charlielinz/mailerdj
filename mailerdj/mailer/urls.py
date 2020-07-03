@@ -5,6 +5,6 @@ app_name = 'mailer'
 urlpatterns = [
     path('', index, name='index'),
     path('add_detail/', add_detail, name='add_detail'),
-    path('edit_detail/', edit_detail, name='edit_detail'),
-    path('delete_detail/', delete_detail, name='delete_detail')
+    path('edit_detail/<int:id>', edit_detail, name='edit_detail'),
+    path('delete_detail/<int:id>/', delete_detail, name='delete_detail')
 ]

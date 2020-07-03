@@ -15,13 +15,21 @@
     <table class='table'>
       <thead class='font-weight-bolder' style='font-size: 20px;'>
         <tr>
-          <th scope='col' style='width: 300px;'>Period</th>
+          <th scope='col' style='width: 300px;'>Id</th>
           <th scope='col' style='width: 900px;'>Subject</th>
           <th scope='col' style='width: 900px;'>To</th>
+          <th scope='col' style='width: 300px;'></th>
         </tr>
       </thead>
       <tbody class='font-weight-normal' style='font-size: 20px;'>
-
+        {% for object in objects %}
+        <tr>
+          <td><a href="{% url 'mailer:edit_detail' id=object.id %}">{{ object.id }}</a></td>
+          <td>{{ object.subject }}</td>
+          <td>{{ object.to }}</td>
+          <td><a href="{% url 'mailer:delete_detail' id=object.id %}">delete</a></td>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </h2>

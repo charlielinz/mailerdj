@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import Http404
+from .models import EmailContent
+from .form import EmailForm
 from win32com import client
 import schedule
 import time
@@ -7,8 +10,10 @@ import json
 
 
 def index(request):
+    print(type(EmailContent))
+    emailcontents = EmailContent.objects.all()
     context = {
-        'text': 'hello!'
+        'objects': emailcontents
     }
     return render(request, 'mailer/index.html', context)
 
@@ -38,19 +43,54 @@ def send_mail(subject, body, to, cc='', bcc='', attachments=[], just_show=False)
 
 
 def add_detail(request):
-    context = {
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
 
-    }
-    return render(request, 'mailer/add_detail.html', context)
+        if form.is_valid():
+            form.save()
+            return redirect('/mailer/')
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/add_detail.html', context)
+    else:
+        form = EmailForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/add_detail.html', context)
 
-def edit_detail(request):
-    context = {
 
-    }
-    return render(request, 'mailer/edit_detail.html', context)
+def edit_detail(request, id):
+    instance = get_object_or_404(klass=EmailContent, pk=id)
+    if request.method == 'POST':
+        form = EmailForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect('/mailer')
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/edit_detail.html', context)
+    else:
+        form = EmailForm(instance=instance)
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/edit_detail.html', context)
 
-def delete_detail(request):
-    context = {
-        
-    }
-    return render(request, 'mailer/delete_detail.html', context)
+
+def delete_detail(request, id):
+    if request.method == 'POST':
+        try:
+            emailcontent = EmailContent.objects.get(id=id)
+        except EmailContent.DoesNotExist:
+            raise Http404('Page do not exist')
+        emailcontent.delete()
+        return redirect('/mailer')
+        context = {
+            'emailcontent': emailcontent
+        }
+        return render(request, 'mailer/delete_detail.html', context)
+    else:
+        return render(request, 'mailer/delete_detail.html')
