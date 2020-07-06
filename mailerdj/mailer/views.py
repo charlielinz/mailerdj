@@ -43,7 +43,7 @@ def send_mail(subject, body, to, cc='', bcc='', attachments=[], just_show=False)
 
 def add_detail(request):
     if request.method == 'POST':
-        form = EmailForm(request.POST)
+        form = EmailForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
@@ -63,7 +63,7 @@ def add_detail(request):
 def edit_detail(request, id):
     instance = get_object_or_404(klass=EmailContent, pk=id)
     if request.method == 'POST':
-        form = EmailForm(request.POST, instance=instance)
+        form = EmailForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.save()
             return redirect('/mailer')
@@ -86,7 +86,7 @@ def delete_detail(request, id):
         except EmailContent.DoesNotExist:
             raise Http404('Page do not exist')
         emailcontent.delete()
-        return redirect('/mailer')
+        return redirect('/mailer/')
         context = {
             'emailcontent': emailcontent
         }

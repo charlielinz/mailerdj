@@ -63,18 +63,19 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
 ]
 
-WSGI_APPLICATION='mailerdj.wsgi.application'
+WSGI_APPLICATION = 'mailerdj.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES={
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -85,7 +86,7 @@ DATABASES={
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS=[
+AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -104,18 +105,22 @@ AUTH_PASSWORD_VALIDATORS=[
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE='en-us'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE='UTC'
+TIME_ZONE = 'UTC'
 
-USE_I18N=True
+USE_I18N = True
 
-USE_L10N=True
+USE_L10N = True
 
-USE_TZ=True
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL='/static/'
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = 'mailer/media'
+
+MEDIA_URL = '/media/'
