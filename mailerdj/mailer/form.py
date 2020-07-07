@@ -1,7 +1,13 @@
 from django import forms
-from .models import EmailContent
+from .models import EmailContent, Library
 
 class EmailForm(forms.ModelForm):
     class Meta:
         model = EmailContent
-        fields = ['task_name', 'subject', 'body', 'to', 'attachment']
+        exclude = []
+
+
+class AttachmentForm(forms.ModelForm):
+    class Meta:
+        model = Library
+        fields = ['book']

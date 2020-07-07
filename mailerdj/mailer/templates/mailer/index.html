@@ -5,11 +5,18 @@
   <h1 class='text-center' style='font-size: 60px;'>
     Outlook Postman
   </h1>
-  <p class='lead text-center font-italic'>
+  <p class='font-weight-light text-center font-italic'>
     do your daily mailjob automaticlly & save your time
   </p>
   <h2>
-    <a class='btn btn-outline-primary' href="{% url 'mailer:add_detail' %}" style='width: 80px;'>Add</a>
+    <div class='row justify-content-between'>
+      <div class='col-auto'>
+        <a class='btn btn-outline-primary' href="{% url 'mailer:add_detail' %}" style='width: 80px;'>Add</a>
+      </div>
+      <div class='col-auto'>
+        <a class='btn btn-outline-primary' href="{% url 'mailer:library'%}">Library</a>
+      </div>
+    </div>
   </h2>
   <h2>
     <table class='table'>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
-from .models import EmailContent
-from .form import EmailForm
+from .models import EmailContent, Library
+from .form import EmailForm, AttachmentForm
 from win32com import client
 import schedule
 import time
@@ -93,3 +93,61 @@ def delete_detail(request, id):
         return render(request, 'mailer/delete_detail.html', context)
     else:
         return render(request, 'mailer/delete_detail.html')
+
+
+def get_file_name(file_path):
+    index = []
+    n = 0
+    for letter in file_path:
+        if letter == '/':
+            index.append(n)
+        n += 1
+    max_index = index[-1]
+    file_name = file_path[(max_index+1):-1]
+    return file_name
+
+
+def library(request):
+    attachments = Library.objects.all()
+    for attachment in attachments:
+        attachment.file_name = get_file_name(attachment.book.name)
+        attachment.save()
+    context = {
+        'objects': attachments
+    }
+    return render(request, 'mailer/library.html', context)
+
+
+def add_new_file(request):
+    if request.method == 'POST':
+        form = AttachmentForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/mailer/library/')
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/add_new_file.html', context)
+    else:
+        form = AttachmentForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/add_new_file.html', context)
+
+
+def delete_file(request, id):
+    if request.method == 'POST':
+        try:
+            library = Library.objects.get(id=id)
+        except Library.DoesNotExist:
+            raise Http404('Page do not exist')
+        library.delete()
+        return redirect('/mailer/library/')
+        context = {
+            'library': library
+        }
+        return render(request, 'mailer/delete_file.html', context)
+    else:
+        return render(request, 'mailer/delete_file.html')
