@@ -11,7 +11,7 @@
   <h2>
     <div class='row justify-content-between'>
       <div class='col-auto'>
-        <a class='btn btn-outline-primary' href="{% url 'mailer:add_detail' %}" style='width: 80px;'>Add</a>
+        <a class='btn btn-outline-primary' href="{% url 'mailer:mailjob_add' %}" style='width: 80px;'>Add</a>
       </div>
     </div>
   </h2>
@@ -28,10 +28,10 @@
       <tbody class='font-weight-normal' style='font-size: 20px;'>
         {% for object in objects %}
         <tr>
-          <td><a href="{% url 'mailer:edit_detail' id=object.id %}">{{ object.task_name }}</a></td>
+          <td><a href="{% url 'mailer:mailjob_edit' id=object.id %}">{{ object.task_name }}</a></td>
           <td>{{ object.subject }}</td>
           <td>{{ object.to }}</td>
-          <td><a href="{% url 'mailer:delete_detail' id=object.id %}">delete</a></td>
+          <td><a href="{% url 'mailer:mailjob_delete' id=object.id %}">delete</a></td>
         </tr>
         {% endfor %}
       </tbody>

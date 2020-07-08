@@ -1,13 +1,14 @@
 from django import forms
-from .models import EmailContent, Library
+from .models import MailJob, Archive
+
 
 class EmailForm(forms.ModelForm):
     class Meta:
-        model = EmailContent
+        model = MailJob
         exclude = []
 
 
 class AttachmentForm(forms.ModelForm):
     class Meta:
-        model = Library
-        fields = ['book']
+        model = Archive
+        fields = ['archive']

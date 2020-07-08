@@ -1,18 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import Http404
-from .models import EmailContent, Library
+from django.urls import reverse
+from .models import MailJob, Archive
 from .form import EmailForm, AttachmentForm
 from win32com import client
 import schedule
 import time
 import os
-import json
 
 
 def index(request):
-    emailcontents = EmailContent.objects.all()
+    MailJobs = MailJob.objects.all()
     context = {
-        'objects': emailcontents
+        'objects': MailJobs
     }
     return render(request, 'mailer/index.html', context)
 
@@ -41,113 +40,76 @@ def send_mail(subject, body, to, cc='', bcc='', attachments=[], just_show=False)
         mail.Send()
 
 
-def add_detail(request):
+def mailjob_add(request):
     if request.method == 'POST':
         form = EmailForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
-            return redirect('/mailer/')
-        context = {
-            'form': form
-        }
-        return render(request, 'mailer/add_detail.html', context)
+            return redirect(reverse('index'))
     else:
         form = EmailForm()
-        context = {
-            'form': form
-        }
-        return render(request, 'mailer/add_detail.html', context)
+    context = {
+        'form': form
+    }
+    return render(request, 'mailer/mailjob_add.html', context)
 
 
-def edit_detail(request, id):
-    instance = get_object_or_404(klass=EmailContent, pk=id)
+def mailjob_edit(request, id):
+    instance = get_object_or_404(klass=MailJob, pk=id)
     if request.method == 'POST':
         form = EmailForm(request.POST, request.FILES, instance=instance)
         if form.is_valid():
             form.save()
-            return redirect('/mailer')
-        context = {
-            'form': form
-        }
-        return render(request, 'mailer/edit_detail.html', context)
+            return redirect(reverse('index'))
     else:
         form = EmailForm(instance=instance)
-        context = {
-            'form': form
-        }
-        return render(request, 'mailer/edit_detail.html', context)
+    context = {
+        'form': form
+    }
+    return render(request, 'mailer/mailjob_edit.html', context)
 
 
-def delete_detail(request, id):
+def mailjob_delete(request, id):
+    instance = get_object_or_404(klass=MailJob, pk=id)
     if request.method == 'POST':
-        try:
-            emailcontent = EmailContent.objects.get(id=id)
-        except EmailContent.DoesNotExist:
-            raise Http404('Page do not exist')
-        emailcontent.delete()
+        instance.delete()
         return redirect('/mailer/')
-        context = {
-            'emailcontent': emailcontent
-        }
-        return render(request, 'mailer/delete_detail.html', context)
-    else:
-        return render(request, 'mailer/delete_detail.html')
+    return render(request, 'mailer/mailjob_delete.html')
 
 
-def get_file_name(file_path):
-    index = []
-    n = 0
-    for letter in file_path:
-        if letter == '/':
-            index.append(n)
-        n += 1
-    max_index = index[-1]
-    file_name = file_path[(max_index+1):-1]
-    return file_name
-
-
-def library(request):
-    attachments = Library.objects.all()
-    for attachment in attachments:
-        attachment.file_name = get_file_name(attachment.book.name)
-        attachment.save()
+def archive(request):
+    attachments = Archive.objects.all()
     context = {
         'objects': attachments
     }
-    return render(request, 'mailer/library.html', context)
+    return render(request, 'mailer/archive.html', context)
 
 
-def add_new_file(request):
+def archive_add(request):
     if request.method == 'POST':
         form = AttachmentForm(request.POST, request.FILES)
 
         if form.is_valid():
-            form.save()
-            return redirect('/mailer/library/')
-        context = {
-            'form': form
-        }
-        return render(request, 'mailer/add_new_file.html', context)
+            archive_name = form.cleaned_data['archive'].name
+            instance = form.save(commit=False)
+            instance.archive_name = archive_name
+            instance.save()
+            return redirect(reverse('mailer:archive'))
     else:
         form = AttachmentForm()
-        context = {
-            'form': form
-        }
-        return render(request, 'mailer/add_new_file.html', context)
+    context = {
+        'form': form
+    }
+    return render(request, 'mailer/archive_add.html', context)
 
 
-def delete_file(request, id):
+def archive_delete(request, id):
+    instance = get_object_or_404(klass=MailJob, pk=id)
     if request.method == 'POST':
-        try:
-            library = Library.objects.get(id=id)
-        except Library.DoesNotExist:
-            raise Http404('Page do not exist')
-        library.delete()
-        return redirect('/mailer/library/')
-        context = {
-            'library': library
-        }
-        return render(request, 'mailer/delete_file.html', context)
-    else:
-        return render(request, 'mailer/delete_file.html')
+        instance.delete()
+        return redirect(reverse('mailer:archive'))
+    context = {
+        'archive': archive
+    }
+    return render(request, 'mailer/archive_delete.html', context)

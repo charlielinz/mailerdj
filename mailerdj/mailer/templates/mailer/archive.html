@@ -1,29 +1,29 @@
 {% extends 'mailer/base.html' %}
-{% block title %}<title>Library</title>{% endblock %}
+{% block title %}<title>Archive</title>{% endblock %}
 {% block content %}
 <div class='container'>
     <h1 class='text-center' style='font-size: 60px;'>
-        Library
+        Archive
     </h1>
     <p class='font-weight-light text-center font-italic'>
         manage your file here
     </p>
     <h2>
-        <a class='btn btn-outline-primary' href="{% url 'mailer:add_new_file' %}" style='width: 80px;'>+</a>
+        <a class='btn btn-outline-primary' href="{% url 'mailer:archive_add' %}" style='width: 80px;'>+</a>
     </h2>
     <h2>
         <table class='table'>
             <thead class='font-weight-bolder' style='font-size: 20px;'>
                 <tr>
-                    <th scope='col'>File Name</th>
+                    <th scope='col'>Archive Name</th>
                     <th scope='col'></th>
                 </tr>
             </thead>
             <tbody class='font-weight-normal' style='font-size: 20px;'>
                 {% for object in objects %}
                 <tr>
-                    <td>{{ object.file_name }}</td>
-                    <td><a href="{% url 'mailer:delete_file' id=object.id %}">delete</a></td>
+                    <td>{{ object.archive_name }}</td>
+                    <td><a href="{% url 'mailer:archive_delete' id=object.id %}">delete</a></td>
                 </tr>        
                 {% endfor %}   
             </tbody>
