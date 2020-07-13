@@ -28,4 +28,4 @@ class Archive(models.Model):
     archive_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.archive.name
+        return self.archive_name

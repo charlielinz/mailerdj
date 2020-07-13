@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, mailjob_add, mailjob_edit, mailjob_delete, archive, archive_add, archive_delete
+from .views import index, mailjob_add, mailjob_edit, mailjob_delete, archive, archive_add, archive_delete, sign_up, login_view, logout_view
 
 app_name = 'mailer'
 urlpatterns = [
@@ -10,4 +10,7 @@ urlpatterns = [
     path('archive/', archive, name='archive'),
     path('archive_add/', archive_add, name='archive_add'),
     path('archive_delete/<int:id>/', archive_delete, name='archive_delete'),
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('sign_up/', sign_up, name='sign_up')
 ]

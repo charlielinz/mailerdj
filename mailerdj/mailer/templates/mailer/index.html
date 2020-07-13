@@ -2,6 +2,8 @@
 {% block title %}<title>Mailer</title>{% endblock %}
 {% block content %}
 <div class='container'>
+  <h2>Welcome, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>
+  <p>Your email address: {{ user.email }}</p>
   <h1 class='text-center' style='font-size: 60px;'>
     Outlook Postman
   </h1>

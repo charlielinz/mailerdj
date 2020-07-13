@@ -1,11 +1,54 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
 from .models import MailJob, Archive
-from .form import EmailForm, AttachmentForm
+from .form import EmailForm, AttachmentForm, SignUpForm, LoginForm
 from win32com import client
 import schedule
 import time
 import os
+
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect(reverse('index'))
+    else:
+        form = SignUpForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'mailer/sign_up.html', context)
+
+
+def login_view(request):
+    if request == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            username = instance.cleaned_data.get('username')
+            password = instance.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return redirect(reverse('index'))
+    else:
+        form = LoginForm()
+    context = {
+        'form': form
+    }
+    return render(request, 'mailer/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('index'))
+    return render(request, 'mailer/logout.html')
 
 
 def index(request):
@@ -74,7 +117,7 @@ def mailjob_delete(request, id):
     instance = get_object_or_404(klass=MailJob, pk=id)
     if request.method == 'POST':
         instance.delete()
-        return redirect('/mailer/')
+        return redirect(reverse('index'))
     return render(request, 'mailer/mailjob_delete.html')
 
 
@@ -105,7 +148,7 @@ def archive_add(request):
 
 
 def archive_delete(request, id):
-    instance = get_object_or_404(klass=MailJob, pk=id)
+    instance = get_object_or_404(klass=Archive, pk=id)
     if request.method == 'POST':
         instance.delete()
         return redirect(reverse('mailer:archive'))
