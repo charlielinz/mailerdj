@@ -28,15 +28,19 @@ def sign_up(request):
 
 
 def login_view(request):
-    if request == 'POST':
+    if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            instance = form.save(commit=False)
-            username = instance.cleaned_data.get('username')
-            password = instance.cleaned_data.get('password1')
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
-            login(request, user)
-            return redirect(reverse('index'))
+            if user is not None:
+                login(request, user)
+                return redirect(reverse('index'))
+            else:
+                t = form.errors
+                print('t')
+
     else:
         form = LoginForm()
     context = {
@@ -52,6 +56,8 @@ def logout_view(request):
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
     MailJobs = MailJob.objects.all()
     context = {
         'objects': MailJobs
@@ -84,6 +90,9 @@ def send_mail(subject, body, to, cc='', bcc='', attachments=[], just_show=False)
 
 
 def mailjob_add(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+
     if request.method == 'POST':
         form = EmailForm(request.POST, request.FILES)
 
@@ -99,6 +108,9 @@ def mailjob_add(request):
 
 
 def mailjob_edit(request, id):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+
     instance = get_object_or_404(klass=MailJob, pk=id)
     if request.method == 'POST':
         form = EmailForm(request.POST, request.FILES, instance=instance)
@@ -114,6 +126,9 @@ def mailjob_edit(request, id):
 
 
 def mailjob_delete(request, id):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+
     instance = get_object_or_404(klass=MailJob, pk=id)
     if request.method == 'POST':
         instance.delete()
@@ -122,6 +137,9 @@ def mailjob_delete(request, id):
 
 
 def archive(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+
     attachments = Archive.objects.all()
     context = {
         'objects': attachments
@@ -130,6 +148,9 @@ def archive(request):
 
 
 def archive_add(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+
     if request.method == 'POST':
         form = AttachmentForm(request.POST, request.FILES)
 
@@ -148,6 +169,9 @@ def archive_add(request):
 
 
 def archive_delete(request, id):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+
     instance = get_object_or_404(klass=Archive, pk=id)
     if request.method == 'POST':
         instance.delete()

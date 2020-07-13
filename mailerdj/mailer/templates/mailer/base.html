@@ -16,13 +16,12 @@
 
   <body class="p-3 bg-light">
     <header>
-      <h1>My Site</h1>
       {% if user.is_authenticated %}
-      <a href="{% url 'mailer:logout' %}">logout</a>
+      <h5>Welcome, {{ user.get_full_name }} !</h5>
+      <a href="{% url 'mailer:logout' %}">Logout</a>
       {% else %}
-      <a href="{% url 'mailer:login' %}">login</a> / <a href="{% url 'mailer:sign_up' %}">signup</a>
+      <a href="{% url 'mailer:login' %}">Login</a> / <a href="{% url 'mailer:sign_up' %}">Sign up</a>
       {% endif %}
-      <hr>
     </header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
