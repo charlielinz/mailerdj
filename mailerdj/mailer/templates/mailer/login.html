@@ -1,20 +1,19 @@
 {% extends 'mailer/base.html' %}
 
 {% block content %}
-<div class='container'>
+<div class='p-3 container'>
   <h1 class='text-center' style='font-size: 60px;'>
     Login
   </h1>
   <p class='font-weight-light text-center font-italic'>
     login to start your mailjob
   </p>
+  
   <div class='row justify-content-center' style='font-size: 20px;'>
-    {% if form.errors %}
-    <p style="color: red">Your username and password didn't match. Please try again.</p>
-    {% endif %}
     <form method="post">
+      <small class='text-danger'>{{ form.non_field_errors|safe }}</small>
+
       {% csrf_token %}
-      <input type="hidden" name="next" value="{{ next }}" >
       {% for field in form %}
       <p>
         {{ field.label_tag }}<br>

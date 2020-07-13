@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from .models import MailJob, Archive
-from .form import EmailForm, AttachmentForm, SignUpForm, LoginForm
+from .form import EmailForm, AttachmentForm, SignUpForm, LoginForm, DivErrorList
 from win32com import client
 import schedule
 import time
@@ -29,17 +29,13 @@ def sign_up(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = LoginForm(request.POST, error_class=DivErrorList)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect(reverse('index'))
-            else:
-                t = form.errors
-                print('t')
+            login(request, user)
+            return redirect(reverse('index'))
 
     else:
         form = LoginForm()
