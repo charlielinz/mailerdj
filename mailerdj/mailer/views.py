@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from .models import MailJob, Archive
 from .form import EmailForm, AttachmentForm, SignUpForm, LoginForm, DivErrorList
 from win32com import client
@@ -54,7 +55,8 @@ def logout_view(request):
 def index(request):
     if not request.user.is_authenticated:
         return redirect(reverse('mailer:login'))
-    MailJobs = MailJob.objects.all()
+    user_id = request.user.id
+    MailJobs = MailJob.objects.filter(creator=user_id)
     context = {
         'objects': MailJobs
     }
@@ -91,9 +93,11 @@ def mailjob_add(request):
 
     if request.method == 'POST':
         form = EmailForm(request.POST, request.FILES)
-
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            creator = User.objects.get(id=request.user.id)
+            instance.creator = creator
+            instance.save()
             return redirect(reverse('index'))
     else:
         form = EmailForm()
@@ -108,17 +112,21 @@ def mailjob_edit(request, id):
         return redirect(reverse('mailer:login'))
 
     instance = get_object_or_404(klass=MailJob, pk=id)
-    if request.method == 'POST':
-        form = EmailForm(request.POST, request.FILES, instance=instance)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('index'))
+    user_id = request.user.id
+    if instance.creator_id == user_id:
+        if request.method == 'POST':
+            form = EmailForm(request.POST, request.FILES, instance=instance)
+            if form.is_valid():
+                form.save()
+                return redirect(reverse('index'))
+        else:
+            form = EmailForm(instance=instance)
+        context = {
+            'form': form
+        }
+        return render(request, 'mailer/mailjob_edit.html', context)
     else:
-        form = EmailForm(instance=instance)
-    context = {
-        'form': form
-    }
-    return render(request, 'mailer/mailjob_edit.html', context)
+        return redirect(reverse('index'))
 
 
 def mailjob_delete(request, id):
@@ -126,17 +134,22 @@ def mailjob_delete(request, id):
         return redirect(reverse('mailer:login'))
 
     instance = get_object_or_404(klass=MailJob, pk=id)
-    if request.method == 'POST':
-        instance.delete()
+    user_id = request.user.id
+    if instance.creator_id == user_id:
+        if request.method == 'POST':
+            instance.delete()
+            return redirect(reverse('index'))
+        return render(request, 'mailer/mailjob_delete.html')
+    else:
         return redirect(reverse('index'))
-    return render(request, 'mailer/mailjob_delete.html')
 
 
 def archive(request):
     if not request.user.is_authenticated:
         return redirect(reverse('mailer:login'))
 
-    attachments = Archive.objects.all()
+    user_id = request.user.id
+    attachments = Archive.objects.filter(creator=user_id)
     context = {
         'objects': attachments
     }
@@ -154,6 +167,8 @@ def archive_add(request):
             archive_name = form.cleaned_data['archive'].name
             instance = form.save(commit=False)
             instance.archive_name = archive_name
+            creator = User.objects.get(id=request.user.id)
+            instance.creator = creator
             instance.save()
             return redirect(reverse('mailer:archive'))
     else:
@@ -169,10 +184,14 @@ def archive_delete(request, id):
         return redirect(reverse('mailer:login'))
 
     instance = get_object_or_404(klass=Archive, pk=id)
-    if request.method == 'POST':
-        instance.delete()
+    user_id = request.user.id
+    if instance.creator_id == user_id:
+        if request.method == 'POST':
+            instance.delete()
+            return redirect(reverse('mailer:archive'))
+        context = {
+            'archive': archive
+        }
+        return render(request, 'mailer/archive_delete.html', context)
+    else:
         return redirect(reverse('mailer:archive'))
-    context = {
-        'archive': archive
-    }
-    return render(request, 'mailer/archive_delete.html', context)

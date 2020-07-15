@@ -2,31 +2,50 @@
 {% block title %}<title>Add</title>{% endblock %}
 {% block content %}
 <div class='p-3 container'>
-    <h1 class='text-center' style='font-size: 60px;'>
-        Add New Task
-    </h1>
-    <p class='font-weight-light text-center font-italic'>
-        add a periodic task here
-    </p>
-    <h2>
-        <div class='row justify-content-center' style='font-size: 20px;'>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% for field in form %}
-                <div class='row'>
-                    <div class='col'>
-                        {{ field.label_tag }}
-                    </div>
-                    <div class='col'>
-                        {{ field }}
-                    </div>
-                </div>
-                {% endfor %}
-                <h2 class='text-center'>
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                </h2>
-            </form>
+  <h1 class='text-center' style='font-size: 60px;'>
+    Add New Task
+  </h1>
+  <p class='font-weight-light text-center font-italic'>
+    add a periodic task here
+  </p>
+  <h2>
+    <div class='row justify-content-center' style='font-size: 20px;'>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="id_task_name">{{ form.task_name.label }}</label>
+            <input type="text" class="form-control" name="task_name" id="id_task_name" placeholder="" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label for="id_subject">{{ form.subject.label }}</label>
+            <input type="text" class="form-control" name="subject" id="id_subject" placeholder="" required>
+          </div>
         </div>
-    </h2>
+
+        <div class="mb-3">
+          <label for="id_body">{{ form.body.label }}</label>
+          <textarea type="text" class="form-control" name="body" id="id_body" placeholder="" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="id_to">{{ form.to.label }}</label>
+          <input type="email" class="form-control" name="to" id="id_to" placeholder="you@example.com" required>
+        </div>
+        <div class="mb-3">
+          <label for="id_attachment">{{ form.attachment.label }}</label>
+          <select name="attachment" class="form-control" id="id_attachment" multiple required>
+            {% for attachment in form.attachment %}
+            {{ attachment }}
+            {% endfor %}
+          </select>
+        </div>
+
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+      </form>
+    </div>
+  </h2>
 </div>
 {% endblock %}

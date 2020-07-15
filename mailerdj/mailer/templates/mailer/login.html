@@ -1,5 +1,5 @@
 {% extends 'mailer/base.html' %}
-
+{% block title %}<title>Login</title>{% endblock %}
 {% block content %}
 <div class='p-3 container'>
   <h1 class='text-center' style='font-size: 60px;'>
@@ -8,19 +8,27 @@
   <p class='font-weight-light text-center font-italic'>
     login to start your mailjob
   </p>
-  
+
   <div class='row justify-content-center' style='font-size: 20px;'>
     <form method="post">
       <small class='text-danger'>{{ form.non_field_errors|safe }}</small>
 
       {% csrf_token %}
-      {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}<br>
-      </p>
-      {% endfor %}
-      <button class="btn btn-primary" type="submit">Log in</button>
+      <div class="mb-3">
+        <label for="id_username">{{ form.username.label }}</label>
+        <div class="input-group">
+          <input type="text" class="form-control" name="username" id="id_username" placeholder="Username" required>
+        </div>
+      </div>
+
+      <div>
+        <label for="id_password">{{ form.password.label }}</label>
+        <div class="input-group">
+          <input type="password" class="form-control" name="password" id="id_password" placeholder="Password" required>
+        </div>
+      </div>
+      <hr class="mb-4">
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Log in</button>
       <a href="{% url 'mailer:sign_up' %}">New to My Site? Sign up</a>
     </form>
   </div>
