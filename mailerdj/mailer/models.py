@@ -21,7 +21,7 @@ class MailJob(models.Model):
     subject = models.CharField(max_length=200)
     body = models.TextField(max_length=1000)
     to = models.CharField(max_length=200)
-    attachment = models.ManyToManyField(to='Archive', blank=True)
+    attachment = models.ManyToManyField(to='Archive')
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
 
 

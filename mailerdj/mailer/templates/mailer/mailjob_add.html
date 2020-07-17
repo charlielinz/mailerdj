@@ -34,7 +34,9 @@
           <input type="email" class="form-control" name="to" id="id_to" placeholder="you@example.com" required>
         </div>
         <div class="mb-3">
-          <label for="id_attachment">{{ form.attachment.label }}</label>
+          <label for="id_attachment">{{ form.attachment.label }}<a class="related-widget-wrapper-link add-related"
+              id="add_id_attachment" href="{% url 'mailer:archive_add' %}"
+              title="Add another archive"><img src="/static/add.svg" alt="Add" style="width: 5%; height: 5%;"></a></label>
           <select name="attachment" class="form-control" id="id_attachment" multiple required>
             {% for attachment in form.attachment %}
             {{ attachment }}

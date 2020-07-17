@@ -98,6 +98,7 @@ def mailjob_add(request):
             creator = User.objects.get(id=request.user.id)
             instance.creator = creator
             instance.save()
+            form.save_m2m()
             return redirect(reverse('index'))
     else:
         form = EmailForm()
