@@ -1,34 +1,44 @@
 {% extends 'mailer/base.html' %}
 {% block title %}<title>Archive</title>{% endblock %}
 {% block content %}
-<div class='p-3 container'>
-  <h1 class='text-center' style='font-size: 60px;'>
-    Archive
-  </h1>
-  <p class='font-weight-light text-center font-italic'>
-    manage your file here
-  </p>
-  <h2>
-    <a class='btn btn-outline-primary' href="{% url 'mailer:archive_add' %}" style='width: 80px;'>+</a>
-  </h2>
-  <h2>
-    <table class='table'>
-      <thead class='font-weight-bolder' style='font-size: 20px;'>
-        <tr>
-          <th scope='col'>Archive Name</th>
-          <th scope='col'></th>
-        </tr>
-      </thead>
-      <tbody class='font-weight-normal' style='font-size: 20px;'>
-        {% for object in objects %}
-        <tr>
-          <td>{{ object.archive_name }}</td>
-          <td><a href="{% url 'mailer:archive_delete' id=object.id %}">delete</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-</div>
-</h2>
+
+<header>
+  <div class='container'>
+    <h1>
+      Archive
+    </h1>
+  </div>
+  <div class='container'>
+    <p>
+      manage your file here
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>
+      <a class='btn btn-outline-primary' href="{% url 'mailer:archive_add' %}">+</a>
+    </h2>
+    <h2>
+      <table>
+        <thead>
+          <tr>
+            <th class="w-90">Archive Name</th>
+            <th class="w-10"></th>
+          </tr>
+        </thead>
+        <tbody >
+          {% for object in objects %}
+          <tr>
+            <td>{{ object.archive_name }}</td>
+            <td><a class="btn" href="{% url 'mailer:archive_delete' id=object.id %}">delete</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </h2>
+  </div>
+</section>
 
 {% endblock %}

@@ -1,41 +1,46 @@
 {% extends 'mailer/base.html' %}
 {% block title %}<title>Outlook Postman</title>{% endblock %}
 {% block content %}
-<div class='p-3 container'>
-  <h1 class='text-center' style='font-size: 60px;'>
-    Outlook Postman
-  </h1>
-  <p class='font-weight-light text-center font-italic'>
-    do your daily mailjob automaticlly & save your time
-  </p>
-  <h2>
-    <div class='row justify-content-between'>
-      <div class='col-auto'>
-        <a class='btn btn-outline-primary' href="{% url 'mailer:mailjob_add' %}" style='width: 80px;'>Add</a>
-      </div>
-    </div>
-  </h2>
-  <h2>
-    <table class='table'>
-      <thead class='font-weight-bolder' style='font-size: 20px;'>
+
+<header>
+  <div class="container">
+    <h1>
+      Outlook Postman
+    </h1>
+  </div>
+  <div class="container">
+    <p>
+      do your daily mailjob automaticlly & save your time
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>
+      <a class="btn btn-outline-primary" href="{% url 'mailer:mailjob_add' %}">add</a>
+    </h2>
+    <table>
+      <thead>
         <tr>
-          <th scope='col' style='width: 500px;'>Task</th>
-          <th scope='col' style='width: 900px;'>Subject</th>
-          <th scope='col' style='width: 900px;'>To</th>
-          <th scope='col' style='width: 200px;'></th>
+          <th class="w-15">Task</th>
+          <th class="w-40">Subject</th>
+          <th class="w-30">To</th>
+          <th class="w-15"></th>
         </tr>
       </thead>
-      <tbody class='font-weight-normal' style='font-size: 20px;'>
+      <tbody>
         {% for object in objects %}
         <tr>
-          <td><a href="{% url 'mailer:mailjob_edit' id=object.id %}">{{ object.task_name }}</a></td>
+          <td><a class="btn" href="{% url 'mailer:mailjob_edit' id=object.id %}">{{ object.task_name }}</a></td>
           <td>{{ object.subject }}</td>
           <td>{{ object.to }}</td>
-          <td><a href="{% url 'mailer:mailjob_delete' id=object.id %}">delete</a></td>
+          <td><a class="btn" href="{% url 'mailer:mailjob_delete' id=object.id %}">delete</a></td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-  </h2>
-</div>
+  </div>
+</section>
+
 {% endblock %}
