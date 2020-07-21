@@ -124,6 +124,11 @@ h2 {
     box-sizing: border-box;
 }
 
+.flex-box-1 a:hover,
+.flex-box-2 a:hover {
+    text-decoration: none;
+}
+
 .w-10 {
     width: 10%;
 }
@@ -320,6 +325,6 @@ ul li {
     margin: 0.5rem;
 }
 
-#login a:hover{
+#login a:hover {
     text-decoration: underline;
 }
