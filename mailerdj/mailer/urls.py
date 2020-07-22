@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import index, mailjob_add, mailjob_edit, mailjob_delete, archive, archive_add, archive_delete, sign_up, login_view, logout_view
+from .views import index, mailjob, mailjob_add, mailjob_edit, mailjob_delete, archive, archive_add, archive_delete, sign_up, login_view, logout_view
 
 app_name = 'mailer'
 urlpatterns = [
     path('', index, name='index'),
+    path('mailjob', mailjob, name='mailjob'),
     path('mailjob_add/', mailjob_add, name='mailjob_add'),
     path('mailjob_edit/<int:id>', mailjob_edit, name='mailjob_edit'),
     path('mailjob_delete/<int:id>/', mailjob_delete, name='mailjob_delete'),

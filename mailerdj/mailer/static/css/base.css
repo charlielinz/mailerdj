@@ -38,9 +38,9 @@ body {
 }
 
 header {
-    height: 144px;
-    padding-top: 70px;
-    margin-bottom: -144px;
+    height: 160px;
+    padding-top: 80px;
+    margin-bottom: -120px;
 }
 
 section {
@@ -54,8 +54,8 @@ footer {
     text-align: center;
     padding: 1rem;
     height: 3rem;
-    background-color: #37373A;
-    color: #FBFBFB;
+    background-color: #dddddd;
+    color: #666666;
 }
 
 .container {
@@ -77,6 +77,7 @@ nav {
     background-color: #37373A;
     margin-bottom: -56px;
     height: 56px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 nav .container {
@@ -104,6 +105,51 @@ h2 {
 }
 
 /* partial setting */
+.intro-box-1 {
+    width: 100%;
+    height: 400px;
+    margin: auto;
+    padding: 1.5rem 1rem;
+    display: grid;
+    background: rgb(246, 191, 216);
+    background: radial-gradient(circle, rgba(246, 191, 216, 1) 0%, rgba(247, 213, 255, 1) 50%, rgba(240, 178, 225, 1) 75%, rgba(175, 175, 235, 1) 75%, rgba(173, 201, 231, 1) 100%);
+    grid-template-columns: 60% 40%;
+}
+
+
+.box-1 {
+    display: grid;
+    margin: 0 10%;
+    align-content: center;
+
+}
+
+.box-1 p {
+    font-size: 42px;
+    padding: 0;
+    font-weight: 400;
+}
+
+.box-2 {
+    display: grid;
+    background-color: #Ffffff;
+    border-radius: 0.5rem;
+    margin: 10% 10%;
+    padding: 0 2rem;
+    border: 2px #666666 solid;
+    align-content: center;
+    justify-content: center;
+}
+
+.box-2 .my-form {
+    margin: 0 5%;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 400;
+    border: 0;
+}
+
+
 .flex-box-1 {
     display: flex;
     align-items: center;
@@ -111,6 +157,10 @@ h2 {
     width: 50%;
     margin: 0 0.2rem;
     box-sizing: border-box;
+}
+
+.flex-box-1 a {
+    margin-right: 1.5rem;
 }
 
 .flex-box-2 {
@@ -122,6 +172,11 @@ h2 {
     width: 50%;
     margin: 0 0.2rem;
     box-sizing: border-box;
+}
+
+.flex-box-2 a,
+.flex-box-2 div {
+    margin-left: 0.5rem;
 }
 
 .flex-box-1 a:hover,
@@ -247,6 +302,9 @@ td {
     padding: 1rem;
     display: grid;
     font-weight: lighter;
+    border: 2px #666666 solid;
+    border-radius: 1rem;
+    background-color: #fbfbfb;
 }
 
 textarea {

@@ -1,0 +1,46 @@
+{% extends 'mailer/base.html' %}
+{% block title %}<title>Mailjob</title>{% endblock %}
+{% block content %}
+
+<header>
+  <div class="container">
+    <h1>
+      Mailjob
+    </h1>
+  </div>
+  <div class="container">
+    <p>
+      manage your mailjob here
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>
+      <a class="btn btn-outline-primary" href="{% url 'mailer:mailjob_add' %}">add</a>
+    </h2>
+    <table>
+      <thead>
+        <tr>
+          <th class="w-15">Job name</th>
+          <th class="w-40">Subject</th>
+          <th class="w-30">To</th>
+          <th class="w-15"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in objects %}
+        <tr>
+          <td><a class="btn" href="{% url 'mailer:mailjob_edit' id=object.id %}">{{ object.task_name }}</a></td>
+          <td>{{ object.subject }}</td>
+          <td>{{ object.to }}</td>
+          <td><a class="btn" href="{% url 'mailer:mailjob_delete' id=object.id %}">delete</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+{% endblock %}

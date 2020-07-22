@@ -53,12 +53,19 @@ def logout_view(request):
 
 
 def index(request):
-    if not request.user.is_authenticated:
-        return redirect(reverse('mailer:login'))
-    user_id = request.user.id
-    MailJobs = MailJob.objects.filter(creator=user_id)
+    if request.method == 'POST':
+        form = LoginForm(request.POST, error_class=DivErrorList)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return redirect(reverse('index'))
+
+    else:
+        form = LoginForm()
     context = {
-        'objects': MailJobs
+        'form': form
     }
     return render(request, 'mailer/index.html', context)
 
@@ -85,6 +92,17 @@ def send_mail(subject, body, to, cc='', bcc='', attachments=[], just_show=False)
         mail.display()
     else:
         mail.Send()
+
+
+def mailjob(request):
+    if not request.user.is_authenticated:
+        return redirect(reverse('mailer:login'))
+    user_id = request.user.id
+    MailJobs = MailJob.objects.filter(creator=user_id)
+    context = {
+        'objects': MailJobs
+    }
+    return render(request, 'mailer/mailjob.html', context)
 
 
 def mailjob_add(request):
