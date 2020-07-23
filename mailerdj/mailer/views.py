@@ -98,7 +98,7 @@ def mailjob(request):
     if not request.user.is_authenticated:
         return redirect(reverse('mailer:login'))
     user_id = request.user.id
-    MailJobs = MailJob.objects.filter(creator=user_id)
+    MailJobs = MailJob.objects.filter(created_by=user_id)
     context = {
         'objects': MailJobs
     }
@@ -113,8 +113,8 @@ def mailjob_add(request):
         form = EmailForm(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
-            creator = User.objects.get(id=request.user.id)
-            instance.creator = creator
+            created_by = User.objects.get(id=request.user.id)
+            instance.created_by = created_by
             instance.save()
             form.save_m2m()
             return redirect(reverse('index'))
@@ -168,7 +168,7 @@ def archive(request):
         return redirect(reverse('mailer:login'))
 
     user_id = request.user.id
-    attachments = Archive.objects.filter(creator=user_id)
+    attachments = Archive.objects.filter(created_by=user_id)
     context = {
         'objects': attachments
     }
@@ -186,8 +186,8 @@ def archive_add(request):
             archive_name = form.cleaned_data['archive'].name
             instance = form.save(commit=False)
             instance.archive_name = archive_name
-            creator = User.objects.get(id=request.user.id)
-            instance.creator = creator
+            created_by = User.objects.get(id=request.user.id)
+            instance.created_by = created_by
             instance.save()
             return redirect(reverse('mailer:archive'))
     else:

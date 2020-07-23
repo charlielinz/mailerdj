@@ -21,14 +21,17 @@ class MailJob(models.Model):
     subject = models.CharField(max_length=200)
     body = models.TextField(max_length=1000)
     to = models.CharField(max_length=200)
-    attachment = models.ManyToManyField(to='Archive')
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    attachment = models.ManyToManyField(to='Archive', blank=True)
+    executed_on = models.CharField(max_length=200)
+    executed_at = models.TimeField()
+    status = models.CharField(max_length=200)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Archive(models.Model):
     archive = models.FileField(storage=mfss, upload_to='mailer/archive')
     archive_name = models.CharField(max_length=200)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.archive_name

@@ -10,7 +10,7 @@ from .models import MailJob, Archive
 class EmailForm(forms.ModelForm):
     class Meta:
         model = MailJob
-        exclude = ['creator']
+        exclude = ['created_by']
 
 
 class AttachmentForm(forms.ModelForm):
