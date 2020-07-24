@@ -20,66 +20,19 @@
     <h2>
       <form class="my-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {% for fields in form %}
         <div class="form-group">
-          <label for="id_task_name">{{ form.task_name.label }}</label>
-          <input type="text" name="task_name" id="id_task_name" placeholder="" required>
+          {{ fields.label_tag }}
+          {{ fields }}
         </div>
-
-        <div class="form-group">
-          <label for="id_subject">{{ form.subject.label }}</label>
-          <input type="text" name="subject" id="id_subject" placeholder="" required>
-        </div>
-
-        <div class="form-group">
-          <label for="id_body">{{ form.body.label }}</label>
-          <textarea type="text" name="body" id="id_body" placeholder="" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="id_to">{{ form.to.label }}</label>
-          <input type="email" name="to" id="id_to" placeholder="you@example.com" required>
-        </div>
-
-        <div class="form-group">
-          <label for="id_attachment">{{ form.attachment.label }}<a class="related-widget-wrapper-link add-related"
-              id="add_id_attachment" href="{% url 'mailer:archive_add' %}" title="Add another archive"><img
-                src="/static/add.svg" alt="Add" style="width: 5%; height: 5%;"></a></label>
-          <select name="attachment" multiple required>
-            {% for attachment in form.attachment %}
-            {{ attachment }}
-            {% endfor %}
-          </select>
-        </div>
-
+        {% if fields.name == "attachment" %}
         <hr>
-
-        <div class="form-group">
-          <label for="id_executed_on">{{ form.executed_on.label }}</label>
-          <select name="executed_on" id="id_executed_on">
-            <option value="monday">Monday</option>
-            <option value="tuesday">Tuesday</option>
-            <option value="wednesday">Wednesday</option>
-            <option value="tuesday">Tuesday</option>
-            <option value="friday">Friday</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="id_executed_at">{{ form.executed_at.label }}</label>
-          <input type="text" name="executed_at" id="id_executed_at" placeholder="" required>
-        </div>
-
-        <div class="form-group">
-          <label for="id_status">{{ form.status.label }}</label>
-          <select name="executed_on" id="id_executed_on">
-            <option value="activate">Activate</option>
-            <option value="deactivate">Deactivate</option>
-          </select>
-        </div>
-
+        {% endif %}
+        {% endfor %}
         <div class="form-group">
           <button class="btn btn-outline-primary" type="submit">Submit</button>
         </div>
+
       </form>
     </h2>
   </div>

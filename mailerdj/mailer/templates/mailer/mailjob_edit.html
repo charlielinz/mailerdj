@@ -20,34 +20,15 @@
     <h2>
       <form class="my-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {% for fields in form %}
         <div class="form-group">
-          <label for="id_task_name">{{ form.task_name.label }}</label>
-          <input type="text" name="task_name" id="id_task_name" required value="{{ form.task_name.value }}">
+          {{ fields.label_tag}}
+          {{ fields }}
         </div>
-
-        <div class="form-group">
-          <label for="id_subject">{{ form.subject.label }}</label>
-          <input type="text" name="subject" id="id_subject" required value="{{ form.subject.value }}">
-        </div>
-
-        <div class="form-group">
-          <label for="id_body">{{ form.body.label }}</label>
-          <textarea type="text" name="body" id="id_body" required>{{ form.body.value }}</textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="id_to">{{ form.to.label }}</label>
-          <input type="email" name="to" id="id_to" required value="{{ form.to.value }}">
-        </div>
-
-        <div class="form-group">
-          <label for="id_attachment">{{ form.attachment.label }}</label>
-          <select name="attachment" id="id_attachment" multiple required>
-            {% for attachment in form.attachment %}
-            {{ attachment }}
-            {% endfor %}
-          </select>
-        </div>
+        {% if fields.name == "attachment" %}
+        <hr>
+        {% endif %}
+        {% endfor %}
         <div class="form-group">
           <button class="btn btn-outline-primary" type="submit">Submit</button>
         </div>

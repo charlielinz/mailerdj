@@ -112,12 +112,14 @@ def mailjob_add(request):
     if request.method == 'POST':
         form = EmailForm(request.POST, request.FILES)
         if form.is_valid():
+
             instance = form.save(commit=False)
             created_by = User.objects.get(id=request.user.id)
             instance.created_by = created_by
             instance.save()
             form.save_m2m()
-            return redirect(reverse('index'))
+
+            return redirect(reverse('mailer:mailjob'))
     else:
         form = EmailForm()
     context = {
@@ -154,7 +156,7 @@ def mailjob_delete(request, id):
 
     instance = get_object_or_404(klass=MailJob, pk=id)
     user_id = request.user.id
-    if instance.creator_id == user_id:
+    if instance.created_by_id == user_id:
         if request.method == 'POST':
             instance.delete()
             return redirect(reverse('index'))
@@ -204,7 +206,7 @@ def archive_delete(request, id):
 
     instance = get_object_or_404(klass=Archive, pk=id)
     user_id = request.user.id
-    if instance.creator_id == user_id:
+    if instance.created_by_id == user_id:
         if request.method == 'POST':
             instance.delete()
             return redirect(reverse('mailer:archive'))

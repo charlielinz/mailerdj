@@ -20,48 +20,13 @@
     <h2>
       <form class="my-form" method="post">
         {% csrf_token %}
+        {% for fields in form%}
         <div class="form-group">
-          <label for="id_first_name">{{ form.first_name.label }} <small
-              class="help-text">({{ form.first_name.help_text }})</small>
-          </label>
-          <input type="text" name="first_name" id="id_first_name" required>
-          <small class="error-text">{{ form.first_name.errors }}</small>
+          {{ fields.label_tag}}<small class="help-text">{{ fields.help_text}}</small>
+          {{ fields}}
+          <small class="error-text">{{ fields.errors }}</small>
         </div>
-        <div class="form-group">
-          <label for="id_last_name">{{ form.last_name.label }} <small
-              class="help-text">({{ form.last_name.help_text }})</small>
-          </label>
-          <input type="text" name="last_name" id="id_last_name" required>
-          <small class="error-text">{{ form.last_name.errors }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="id_username">{{ form.username.label }}</label>
-          <input type="text" name="username" id="id_username" placeholder="username" required>
-          <small class="error-text">{{ form.username.errors }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="id_email">{{ form.email.label }} <small class="help-text">({{ form.email.help_text }})</small>
-          </label>
-          <input type="email" name="email" id="id_email" placeholder="you@example.com" required>
-          <small class="error-text">{{ form.email.errors }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="id_password1">{{ form.password1.label }}</span></label>
-          <input type="password" name="password1" id="id_password1" placeholder="" required>
-          <small class="error-text">{{ form.password1.errors }}</small>
-          <small class="help-text">{{ form.password1.help_text }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="id_password2">{{ form.password2.label }}</span> <small
-              class="help-text">({{ form.password2.help_text }})</small>
-          </label>
-          <input type="password" name="password2" id="id_password2" required>
-          <small class="error-text">{{ form.password2.errors }}</small>
-        </div>
+        {% endfor %}
         <div class="form-group">
           <button class="btn btn-outline-primary" type="submit">Sign up</button>
         </div>

@@ -8,6 +8,31 @@ from .models import MailJob, Archive
 
 
 class EmailForm(forms.ModelForm):
+    executed_on = forms.ChoiceField(
+        choices=(
+            ('monday', 'Monday'),
+            ('tuesday', 'Tuesday'),
+            ('wednesday', 'Wednesday'),
+            ('thursday', 'Thursday'),
+            ('friday', 'Friday')
+        )
+    )
+
+    executed_at = forms.TimeField(
+        widget=forms.TimeInput(
+            attrs={
+                'type': 'time'
+            }
+        )
+    )
+
+    status = forms.ChoiceField(
+        choices=(
+            ('activate', 'Activate'),
+            ('deactivate', 'Deactivate')
+        )
+    )
+
     class Meta:
         model = MailJob
         exclude = ['created_by']
