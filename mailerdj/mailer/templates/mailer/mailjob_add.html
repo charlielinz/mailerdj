@@ -50,7 +50,33 @@
             {% endfor %}
           </select>
         </div>
-        
+
+        <hr>
+
+        <div class="form-group">
+          <label for="id_executed_on">{{ form.executed_on.label }}</label>
+          <select name="executed_on" id="id_executed_on">
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="friday">Friday</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="id_executed_at">{{ form.executed_at.label }}</label>
+          <input type="text" name="executed_at" id="id_executed_at" placeholder="" required>
+        </div>
+
+        <div class="form-group">
+          <label for="id_status">{{ form.status.label }}</label>
+          <select name="executed_on" id="id_executed_on">
+            <option value="activate">Activate</option>
+            <option value="deactivate">Deactivate</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <button class="btn btn-outline-primary" type="submit">Submit</button>
         </div>

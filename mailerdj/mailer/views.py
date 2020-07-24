@@ -132,7 +132,7 @@ def mailjob_edit(request, id):
 
     instance = get_object_or_404(klass=MailJob, pk=id)
     user_id = request.user.id
-    if instance.creator_id == user_id:
+    if instance.created_by_id == user_id:
         if request.method == 'POST':
             form = EmailForm(request.POST, request.FILES, instance=instance)
             if form.is_valid():

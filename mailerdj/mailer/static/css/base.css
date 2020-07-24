@@ -104,6 +104,9 @@ h2 {
     font-size: 20px;
 }
 
+hr{
+    margin: 1rem 0 ;
+}
 /* partial setting */
 .intro-box-1 {
     width: 100%;
@@ -276,7 +279,7 @@ td {
 textarea {
     margin: 0;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 14px;
     line-height: inherit;
     resize: vertical;
 }
