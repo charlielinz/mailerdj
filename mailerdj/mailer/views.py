@@ -94,6 +94,11 @@ def send_mail(subject, body, to, cc='', bcc='', attachments=[], just_show=False)
         mail.Send()
 
 
+"""
+Mailjob task  
+"""
+
+
 def mailjob(request):
     if not request.user.is_authenticated:
         return redirect(reverse('mailer:login'))
@@ -139,7 +144,7 @@ def mailjob_edit(request, id):
             form = EmailForm(request.POST, request.FILES, instance=instance)
             if form.is_valid():
                 form.save()
-                return redirect(reverse('index'))
+                return redirect(reverse('mailer:mailjob'))
         else:
             form = EmailForm(instance=instance)
         context = {
@@ -163,6 +168,11 @@ def mailjob_delete(request, id):
         return render(request, 'mailer/mailjob_delete.html')
     else:
         return redirect(reverse('index'))
+
+
+"""
+Attachment 
+"""
 
 
 def archive(request):
@@ -216,3 +226,34 @@ def archive_delete(request, id):
         return render(request, 'mailer/archive_delete.html', context)
     else:
         return redirect(reverse('mailer:archive'))
+
+
+"""
+Send mail by schedule
+"""
+
+
+def mail_schedule(request):
+    for profile in MailJob:
+        if profile.status == "activate":
+            def mail_job(request):
+                send_mail(
+                    subject=profile.subject,
+                    to=profile.to,
+                    body=profile.body,
+                    attachments=profile.attachment
+                )
+            if profile.executed_on == "monday":
+                schedule.every().monday.at(profile.executed_at).do(mail_job)
+
+            elif profile.executed_on == "tuesday":
+                schedule.every().tuesday.at(profile.executed_at).do(mail_job)
+
+            elif profile.executed_on == "wednesday":
+                schedule.every().wednesday.at(profile.executed_at).do(mail_job)
+
+            elif profile.executed_on == "thursday":
+                schedule.every().thursday.at(profile.executed_at).do(mail_job)
+
+            elif profile.executed_on == "friday":
+                schedule.every().friday.at(profile.executed_at).do(mail_job)
